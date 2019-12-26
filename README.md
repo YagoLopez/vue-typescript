@@ -1,4 +1,6 @@
-# vue-typescript
+# The Settlers Of Catan
+A Game of dices developed using VueJS
+By Yago López
 
 ## Project setup
 ```

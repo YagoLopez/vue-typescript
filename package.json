@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "browse": "open -na 'Google Chrome' --args --incognito http://localhost:8080",
+    "browse:serve": "npm run browse && npm run serve"
   },
   "dependencies": {
     "core-js": "^3.4.3",
