@@ -182,27 +182,27 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { FACE_NUMBERS } from '@/components/constants.ts'
 
-@Component
+  @Component
 export default class Dice extends Vue {
-  @Prop() name!: string
-  @Prop() current!: string
+    @Prop() name!: string
+    @Prop() current!: string
 
-  sides = FACE_NUMBERS
-  isRolling = false
-  currentValue: string
+    sides = FACE_NUMBERS
+    isRolling = false
+    currentValue: string
 
-  constructor () {
-    super()
-    this.currentValue = this.current
-  }
-
-  get isValidNumber (): boolean {
-    let result = false
-    if (this.current) {
-      result = FACE_NUMBERS.includes(this.current)
+    constructor () {
+      super()
+      this.currentValue = this.current
     }
-    return result
-  }
+
+    get isValidNumber (): boolean {
+      let result = false
+      if (this.current) {
+        result = FACE_NUMBERS.includes(this.current)
+      }
+      return result
+    }
 }
 
 </script>

@@ -3,39 +3,49 @@
     text-shadow: 3px 1px grey;
     color: darkgray;
   }
+  .app-content {
+    padding-top: 30px;
+  }
 </style>
 
 <template>
-  <div>
-    <h1>The Settlers Of Catan</h1>
-    <dices-collection
+  <div class="app-content">
+    <h1>{{ title }}</h1>
+    <game
+      ref="game"
       :dices-collection="dicesCollection"
       @onAddDice="onAddDice"
-      @onRollDices="onRollDices"
       @onRemoveDice="onRemoveDice"
       @onRemoveAllDices="onRemoveAllDices"
       @onSaveDices="onSaveDices"
       @onLoadDices="onLoadDices"
+      max-dices="7"
     />
   </div>
 </template>
 
 <script lang="ts">
 
-import { Component, Vue } from 'vue-property-decorator'
-import DicesCollection from '@/views/DicesCollection.vue'
-import { FACE_NUMBERS, getRandomNumbersBetween, LOCAL_STORAGE_DICES_KEY } from '@/components/constants'
-import { dice } from '@/components/models/Dice'
+import { Component, Prop, Vue } from 'vue-property-decorator'
+import Game from '@/views/Game.vue'
+import { IDice } from '@/components/models/IDice'
+import { FACE_NUMBERS, GAME_NAME, LOCAL_STORAGE_DICES_KEY } from '@/components/constants'
 
 @Component({
-  components: { DicesCollection }
+  components: { Game }
 })
 export default class Home extends Vue {
-  dicesCollection: dice[] = []
+  dicesCollection: IDice[] = []
+  title = GAME_NAME
 
   onAddDice () {
+    if (this.dicesCollection.length >= parseInt((this.$refs.game as any).maxDices)) {
+      alert('Maximum number of dices reached')
+      return
+    }
+
     const diceNumber = this.dicesCollection.length + 1
-    const newDice: dice = {
+    const newDice: IDice = {
       sides: FACE_NUMBERS,
       name: `dice${diceNumber}`,
       current: '1'
@@ -43,18 +53,12 @@ export default class Home extends Vue {
     this.dicesCollection.push(newDice)
   }
 
-  onRollDices () {
-    for (let i = 0; i < this.dicesCollection.length; i++) {
-      this.dicesCollection[i].current = getRandomNumbersBetween(6, 1).toString(10)
-    }
-  }
-
   onRemoveDice () {
     this.dicesCollection.pop()
   }
 
   onRemoveAllDices () {
-    if (window.confirm('Confirm: Remove All Dices')) {
+    if (window.confirm('Confirm: Remove All Dices from memory and disk')) {
       this.dicesCollection = []
       try {
         localStorage.removeItem(LOCAL_STORAGE_DICES_KEY)

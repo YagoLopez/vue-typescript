@@ -2,7 +2,7 @@ export const FACE_NUMBERS: string[] = ['1', '2', '3', '4', '5', '6']
 
 export const LOCAL_STORAGE_DICES_KEY = 'dicesCollection'
 
-export const DICES_EVENT_NAMES = {
+export const EVENT_NAME = {
   onAddDice: 'onAddDice',
   onRemoveDice: 'onRemoveDice',
   onRemoveAllDices: 'onRemoveAllDices',
@@ -10,6 +10,8 @@ export const DICES_EVENT_NAMES = {
   onLoadDices: 'onLoadDices',
   onRollDices: 'onRollDices'
 }
+
+export const GAME_NAME = 'The Settlers Of Catan'
 
 /**
  * Get random number between max and min
