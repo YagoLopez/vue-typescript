@@ -46,14 +46,16 @@
       <div class="info-msg" v-if="!isThereDicesInMemory">
         Please add a new dice using the button
       </div>
-      <div v-else v-for="(dice, index) in dicesCollection" :key="index" class="dice-container">
-        <Dice :ref="dice.name" :name="dice.name" :current="dice.current" />
+      <div v-else v-for="(diceId, index) in dicesCollection" :key="index" class="dice-container">
+        <Dice :ref="diceId" :dice="getDiceById(diceId)"/>
       </div>
     </div>
     <div>
+<!--
       <v-btn large @click="onAddDice">
         Add Dice
       </v-btn>
+-->
       <v-btn v-if="isThereDicesInMemory" large @click="onRollDices">
         <v-icon>mdi-dice-multiple-outline</v-icon>Roll dice/s
       </v-btn>
@@ -76,6 +78,7 @@
 
 <script lang="ts">
 
+import VueComponent from 'vue'
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import Dice from '@/components/Dice.vue'
 import { IDice } from '@/components/models/IDice'
@@ -87,7 +90,8 @@ import { GAME_NAME, EVENT_NAME, LOCAL_STORAGE_DICES_KEY, getRandomNumbersBetween
 export default class Game extends Vue {
   name = GAME_NAME
   @Prop() maxDices!: number
-  @Prop({ default: [] }) dicesCollection!: IDice[]
+  @Prop({ default: [] }) dicesCollection!: string[]
+  @Prop({ default: [] }) dicesList!: IDice[]
 
   get isThereDicesInMemory () {
     return this.dicesCollection.length > 0
@@ -96,6 +100,20 @@ export default class Game extends Vue {
   get isThereDicesInLocalStorage () {
     const serializedDices = window.localStorage.getItem(LOCAL_STORAGE_DICES_KEY)
     return serializedDices && serializedDices !== ''
+  }
+
+  // todo: review: es posible que no se necesite
+  getDiceSides (index: number) {
+    return this.dicesList[index].sides
+  }
+
+  // todo: review: es posible que no se necesite
+  getDiceByIndex (index: number) {
+    return this.dicesList[index]
+  }
+
+  getDiceById (id: string) {
+    return this.dicesList.filter((dice) => dice.id === id)[0]
   }
 
   mounted () {
@@ -113,22 +131,44 @@ export default class Game extends Vue {
   onRollDices () {
     const audioElement = this.$refs.rollDicesAudio as HTMLAudioElement
     // audioElement.play()
-    // todo: review any type
     const gameComponent: Game = this
     for (let i = 0; i < this.dicesCollection.length; i++) {
-      const currentDiceName = `dice${i + 1}`
-      const currentDice = (gameComponent.$refs[currentDiceName] as Dice[])[0]
-      // Number 6 when dice is rolling for better visual aspect
-      currentDice.currentValue = '6'
-      currentDice.isRolling = true
-      const newDiceValue: string = getRandomNumbersBetween(6, 1).toString(10)
-      setTimeout(function () {
-        currentDice.isRolling = false
-        currentDice.currentValue = newDiceValue
-        // audioElement.play()
+      const currentDiceId = this.dicesCollection[i]
+      // todo: review types
+      const currentDiceComponent = this.$refs[currentDiceId][0]
+      currentDiceComponent.isRolling = true
+      const newSideIndex: string = getRandomNumbersBetween(currentDiceComponent.dice.sides.length, 0).toString(10)
+      setTimeout(() => {
+        currentDiceComponent.isRolling = false
+        currentDiceComponent.currentValue = newSideIndex
       }, (i + 1) * 1000)
     }
   }
+
+/*
+  onRollDices () {
+    // debugger
+    // const audioElement = this.$refs.rollDicesAudio as HTMLAudioElement
+    // audioElement.play()
+    // todo: review any type
+    const gameComponent: Game = this
+    for (let i = 0; i < this.dicesCollection.length; i++) {
+      // debugger
+      const currentDiceName = `dice${i + 1}`
+      const currentDice = (gameComponent.$refs[currentDiceName] as Dice[])[0]
+      // Number 6 when dice is rolling for better visual aspect
+      // currentDice.currentValue = '6'
+      // currentDice.isRolling = true
+      const newDiceValue: string = getRandomNumbersBetween(6, 1).toString(10)
+      // setTimeout(function () {
+      //   currentDice.isRolling = false
+      //   currentDice.currentValue = newDiceValue
+        gameComponent.$emit('onRollDices', { diceIndex: i, newDiceValue: newDiceValue, dice: currentDice })
+        // audioElement.play()
+      // }, (i + 1) * 1000)
+    }
+  }
+*/
 
   @Emit(EVENT_NAME.onRemoveAllDices)
   onRemoveAllDices () {}
@@ -136,8 +176,8 @@ export default class Game extends Vue {
   @Emit(EVENT_NAME.onSaveDices)
   onSaveDices () {
     for (let i = 0; i < this.dicesCollection.length; i++) {
-      const currentDiceName = `dice${i + 1}`
-      const currentDice: any = (this.$refs[currentDiceName] as Dice[])[0]
+      const currentDiceName: string = this.dicesCollection[i].name
+      const currentDice = (this.$refs[currentDiceName] as Dice[])[0]
       this.dicesCollection[i].current = currentDice.currentValue
     }
   }

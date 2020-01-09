@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/create',
     name: 'create',
-    component: Home
+    component: () => import('../views/CreateDicesCollection.vue')
   },
   {
     path: '/about',

@@ -21,54 +21,6 @@
     align-items: center;
   }
 
-  .second-face {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .second-face .pip:nth-of-type(2) {
-    align-self: flex-end;
-  }
-
-  .third-face {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .third-face .pip:nth-of-type(2) {
-    align-self: center;
-  }
-
-  .third-face .pip:nth-of-type(3) {
-    align-self: flex-end;
-  }
-
-  .fourth-face, .sixth-face {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .fourth-face .column, .sixth-face .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .fifth-face {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .fifth-face .column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .fifth-face .column:nth-of-type(2) {
-    justify-content: center;
-  }
-
   /* OTHER STYLES */
 
   [class$="face"] {
@@ -117,63 +69,21 @@
   @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
   @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); }
   }
+
+  .face-number {
+    font-size: 25px;
+    font-weight: bold;
+  }
 </style>
 
 <template>
   <div>
     <div id="face-container" :class="{ rotation: isRolling }">
-      <div class="first-face" v-if="currentValue === '1'">
-        <span class="pip"/>
-      </div>
-      <div class="second-face" v-if="currentValue === '2'">
-        <span class="pip"/>
-        <span class="pip"/>
-      </div>
-      <div class="third-face" v-if="currentValue === '3'">
-        <span class="pip"/>
-        <span class="pip"/>
-        <span class="pip"/>
-      </div>
-      <div class="fourth-face" v-if="currentValue === '4'">
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-      </div>
-      <div class="fifth-face" v-if="currentValue === '5'">
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-        <div class="column">
-          <span class="pip"/>
-        </div>
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-      </div>
-      <div class="sixth-face" v-if="currentValue === '6'">
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-        <div class="column">
-          <span class="pip"/>
-          <span class="pip"/>
-          <span class="pip"/>
-        </div>
-      </div>
-      <div class="error" v-if="!isValidNumber">
-        INVALID FACE NUMBER
+      <div class="first-face">
+        <span class="face-number">{{ sideValue }}</span>
       </div>
     </div>
-    <div class="dice-name">{{name}}</div>
+    <div class="dice-name">{{dice.name}}</div>
   </div>
 </template>
 
@@ -184,24 +94,23 @@ import { FACE_NUMBERS } from '@/components/constants.ts'
 
 @Component
 export default class Dice extends Vue {
+  // todo: remove unused props
   @Prop() name!: string
   @Prop() current!: string
+  @Prop() sides: any
+  @Prop() dice: any // todo: review type
 
-  sides = FACE_NUMBERS
   isRolling = false
   currentValue: string
 
   constructor () {
     super()
-    this.currentValue = this.current
+    this.currentValue = this.dice.current
   }
 
-  get isValidNumber (): boolean {
-    let result = false
-    if (this.current) {
-      result = FACE_NUMBERS.includes(this.current)
-    }
-    return result
+  get sideValue () {
+    const currentSideIndex = parseInt(this.currentValue)
+    return this.dice.sides[currentSideIndex]
   }
 }
 

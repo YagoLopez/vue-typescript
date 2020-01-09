@@ -1,3 +1,4 @@
+// todo: review
 export const FACE_NUMBERS: string[] = ['1', '2', '3', '4', '5', '6']
 
 export const LOCAL_STORAGE_DICES_KEY = 'dicesCollection'
@@ -21,4 +22,8 @@ export const GAME_NAME = 'The Settlers Of Catan'
  */
 export const getRandomNumbersBetween = (max: number, min: number): number => {
   return Math.floor(Math.random() * max) + min
+}
+
+export const generateId = (): string => {
+  return Math.random().toString(36).substr(2, 9)
 }
