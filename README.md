@@ -1,6 +1,5 @@
 # Vue + Typescript Practice
-A game of dices developed using VueJS
-By Yago López
+A game of dices developed using VueJS.By Yago López
 
 DEMO: https://yagolopez.js.org/vue-typescript/dist/index.html#/
 
