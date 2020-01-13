@@ -1,14 +1,11 @@
-// todo: review
-export const FACE_NUMBERS: string[] = ['1', '2', '3', '4', '5', '6']
-
-export const LOCAL_STORAGE_DICES_KEY = 'dicesCollection'
+export const LOCAL_STORAGE_GAMES_KEY = 'dicesGames'
 
 export const EVENT_NAME = {
   onAddDice: 'onAddDice',
   onRemoveDice: 'onRemoveDice',
   onRemoveAllDices: 'onRemoveAllDices',
-  onSaveDices: 'onSaveDices',
-  onLoadDices: 'onLoadDices',
+  onSaveGame: 'onSaveGame',
+  onLoadGames: 'onLoadGames',
   onRollDices: 'onRollDices'
 }
 

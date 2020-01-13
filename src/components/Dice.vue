@@ -1,5 +1,5 @@
 <style scoped>
-  .dice-name {
+  .item {
     font-weight: bolder;
     color: white;
     background-color: black;
@@ -24,7 +24,7 @@
   /* OTHER STYLES */
 
   [class$="face"] {
-    margin: 16px;
+    margin: 30px;
     padding: 4px;
 
     background-color: #e7e7e7;
@@ -83,23 +83,18 @@
         <span class="face-number">{{ sideValue }}</span>
       </div>
     </div>
-    <div class="dice-name">{{dice.name}}</div>
+    <div class="item">{{ dice.name }}</div>
   </div>
 </template>
 
 <script lang="ts">
 
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { FACE_NUMBERS } from '@/components/constants.ts'
+import { IDice } from '@/components/models/IDice'
 
 @Component
 export default class Dice extends Vue {
-  // todo: remove unused props
-  @Prop() name!: string
-  @Prop() current!: string
-  @Prop() sides: any
-  @Prop() dice: any // todo: review type
-
+  @Prop() dice!: IDice
   isRolling = false
   currentValue: string
 
