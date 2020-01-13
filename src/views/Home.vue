@@ -89,11 +89,9 @@
         </div>
       </v-card-text>
     </v-card>
-    <!--todo: make invisible or disable the btn when clicked-->
 
     <v-checkbox v-model="showDebugInfo" label="Show/Hide Debug Info" class="checkbox"/>
 
-    <!--todo: make visible/invisible debug info-->
     <div class="debug-info" v-if="showDebugInfo">
       <hr>
       <h4>DEBUG INFO</h4>
