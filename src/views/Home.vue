@@ -37,10 +37,8 @@
     width: 90%;
     margin: 20px auto;
   }
-  .v-input input {
-    text-align: center;
-    color: cornflowerblue !important;
-    font-size: xx-large;
+  .checkbox {
+    display: inline-block
   }
 </style>
 
@@ -93,8 +91,10 @@
     </v-card>
     <!--todo: make invisible or disable the btn when clicked-->
 
+    <v-checkbox v-model="showDebugInfo" label="Show/Hide Debug Info" class="checkbox"/>
+
     <!--todo: make visible/invisible debug info-->
-    <div class="debug-info">
+    <div class="debug-info" v-if="showDebugInfo">
       <hr>
       <h4>DEBUG INFO</h4>
       <h5>Dices</h5>
@@ -134,6 +134,8 @@ export default class Home extends Vue {
   }
 
   games = []
+
+  showDebugInfo = false
 
   rules = [(value: string) => !!value || 'Required.']
 
