@@ -1,6 +1,8 @@
-# The Settlers Of Catan
-A Game of dices developed using VueJS
+# Vue + Typescript Practice
+A game of dices developed using VueJS
 By Yago López
+
+DEMO: https://yagolopez.js.org/vue-typescript/dist/index.html#/
 
 ## Project setup
 ```
