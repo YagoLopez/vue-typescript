@@ -88,6 +88,7 @@ export default class Game extends Vue {
     return this.dicesCollection.length > 0
   }
 
+  // todo: review this
   get isThereDicesInLocalStorage () {
     const serializedDices = window.localStorage.getItem(LOCAL_STORAGE_GAMES_KEY)
     return serializedDices && serializedDices !== ''
