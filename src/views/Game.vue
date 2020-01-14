@@ -72,7 +72,7 @@
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import Dice from '@/components/Dice.vue'
 import { IDice } from '@/components/models/IDice'
-import { GAME_NAME, EVENT_NAME, LOCAL_STORAGE_GAMES_KEY, getRandomNumbersBetween } from '@/components/constants'
+import { EVENT_NAME, LOCAL_STORAGE_GAMES_KEY, getRandomNumbersBetween } from '@/components/constants'
 import { IDiceComponent } from '@/components/IDiceComponent'
 
 @Component({
@@ -82,7 +82,6 @@ export default class Game extends Vue {
   @Prop() maxDices!: number
   @Prop({ default: [] }) dicesCollection!: string[]
   @Prop({ default: [] }) dicesList!: IDice[]
-  name = GAME_NAME
   $refs!: any
 
   get isThereDicesInMemory () {
@@ -99,7 +98,6 @@ export default class Game extends Vue {
     return { ...diceType, current: '0', isRolling: false }
   }
 
-  // todo: review this
   mounted () {
     if (this.isThereDicesInLocalStorage) {
       this.$emit(EVENT_NAME.onLoadGames)

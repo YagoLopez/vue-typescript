@@ -9,8 +9,6 @@ export const EVENT_NAME = {
   onRollDices: 'onRollDices'
 }
 
-export const GAME_NAME = 'The Settlers Of Catan'
-
 /**
  * Get random number between max and min
  * Used to roll the dices
