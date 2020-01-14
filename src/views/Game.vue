@@ -64,10 +64,6 @@
         Remove All Dices
       </v-btn>
     </div>
-    <audio ref="rollDicesAudio">
-      <source src="../assets/jump_09.wav" type="audio/wav">
-      Your browser does not support the audio element.
-    </audio>
   </div>
 </template>
 
@@ -76,7 +72,7 @@
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import VueComponent from 'Vue'
 import Dice from '@/components/Dice.vue'
-import { IDice } from '@/components/models/IDice'
+import { IDice, IDiceComponent } from '@/components/models/IDice'
 import { GAME_NAME, EVENT_NAME, LOCAL_STORAGE_GAMES_KEY, getRandomNumbersBetween } from '@/components/constants'
 
 @Component({
@@ -115,11 +111,10 @@ export default class Game extends Vue {
   onRemoveDice () {}
 
   onRollDices () {
-    // const audioElement = this.$refs.rollDicesAudio as HTMLAudioElement
-    // audioElement.play()
     for (let i = 0; i < this.dicesCollection.length; i++) {
       // todo: review types
-      const currentDiceComponent: any = (this.$refs[i] as VueComponent[])[0]
+      // const currentDiceComponent: IDiceComponent = (this.$refs[i] as VueComponent[])[0]
+      const currentDiceComponent: IDiceComponent = (this.$refs[i] as any)[0]
       currentDiceComponent.isRolling = true
       const newSideIndex: string = getRandomNumbersBetween(currentDiceComponent.dice.sides.length, 0).toString(10)
       setTimeout(() => {
@@ -135,10 +130,6 @@ export default class Game extends Vue {
   @Emit(EVENT_NAME.onSaveGame)
   onSaveGame () {
   }
-
-  // todo: remove
-  // @Emit(EVENT_NAME.onLoadGames)
-  // onLoadGames () {}
 }
 
 </script>
