@@ -79,16 +79,16 @@ import { IDiceComponent } from '@/components/IDiceComponent'
   components: { Dice }
 })
 export default class Game extends Vue {
-  name = GAME_NAME
   @Prop() maxDices!: number
   @Prop({ default: [] }) dicesCollection!: string[]
   @Prop({ default: [] }) dicesList!: IDice[]
+  name = GAME_NAME
+  $refs!: any
 
   get isThereDicesInMemory () {
     return this.dicesCollection.length > 0
   }
 
-  // todo: review this
   get isThereDicesInLocalStorage () {
     const serializedDices = window.localStorage.getItem(LOCAL_STORAGE_GAMES_KEY)
     return serializedDices && serializedDices !== ''
@@ -99,6 +99,7 @@ export default class Game extends Vue {
     return { ...diceType, current: '0', isRolling: false }
   }
 
+  // todo: review this
   mounted () {
     if (this.isThereDicesInLocalStorage) {
       this.$emit(EVENT_NAME.onLoadGames)
@@ -113,7 +114,7 @@ export default class Game extends Vue {
 
   onRollDices () {
     for (let i = 0; i < this.dicesCollection.length; i++) {
-      const currentDiceComponent: IDiceComponent = (this.$refs[i] as any)[0]
+      const currentDiceComponent: IDiceComponent = this.$refs[i][0]
       currentDiceComponent.isRolling = true
       const newSideIndex: string = getRandomNumbersBetween(currentDiceComponent.dice.sides.length, 0).toString(10)
       setTimeout(() => {
