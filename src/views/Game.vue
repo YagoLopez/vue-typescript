@@ -70,7 +70,6 @@
 <script lang="ts">
 
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
-import VueComponent from 'Vue'
 import Dice from '@/components/Dice.vue'
 import { IDice } from '@/components/models/IDice'
 import { GAME_NAME, EVENT_NAME, LOCAL_STORAGE_GAMES_KEY, getRandomNumbersBetween } from '@/components/constants'
@@ -113,7 +112,6 @@ export default class Game extends Vue {
 
   onRollDices () {
     for (let i = 0; i < this.dicesCollection.length; i++) {
-      // todo: review type any
       const currentDiceComponent: IDiceComponent = (this.$refs[i] as any)[0]
       currentDiceComponent.isRolling = true
       const newSideIndex: string = getRandomNumbersBetween(currentDiceComponent.dice.sides.length, 0).toString(10)
