@@ -90,7 +90,7 @@
 <script lang="ts">
 
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { IDice, IDiceComponent } from '@/components/models/IDice'
+import { IDice } from '@/components/models/IDice'
 
 @Component
 export default class Dice extends Vue {
